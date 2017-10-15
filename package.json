@@ -1,0 +1,5 @@
+{
+  "name": "snort_web_interface",
+  "private": true,
+  "dependencies": {}
+}
