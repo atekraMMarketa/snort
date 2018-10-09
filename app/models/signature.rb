@@ -14,4 +14,9 @@
 class Signature < ApplicationRecord
   self.table_name  = 'signature'
 
+  has_one :event
+
+  def sig_class_name
+    SigClass.find(sig_class_id).present? ? SigClass.find(sig_class_id).sig_class_name : "None class name"
+  end
 end

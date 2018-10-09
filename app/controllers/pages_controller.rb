@@ -5,6 +5,6 @@ class PagesController < ApplicationController
     @detail = Detail.all
     @icmphdrs = Icmphdr.all
     @sensors = Sensor.all
-    @signatures = Signature.all
+    #@signatures = Signature.all
   end
 end

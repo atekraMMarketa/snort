@@ -10,7 +10,70 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181008210021) do
+ActiveRecord::Schema.define(version: 20181009042008) do
+
+  create_table "acid_ag", primary_key: "ag_id", id: :integer, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "ag_name", limit: 40
+    t.text "ag_desc"
+    t.datetime "ag_ctime"
+    t.datetime "ag_ltime"
+    t.index ["ag_id"], name: "ag_id"
+  end
+
+  create_table "acid_ag_alert", primary_key: ["ag_id", "ag_sid", "ag_cid"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "ag_id", null: false, unsigned: true
+    t.integer "ag_sid", null: false, unsigned: true
+    t.integer "ag_cid", null: false, unsigned: true
+    t.index ["ag_id"], name: "ag_id"
+    t.index ["ag_sid", "ag_cid"], name: "ag_sid"
+  end
+
+  create_table "acid_event", primary_key: ["sid", "cid"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "sid", null: false, unsigned: true
+    t.integer "cid", null: false, unsigned: true
+    t.integer "signature", null: false, unsigned: true
+    t.string "sig_name"
+    t.integer "sig_class_id", unsigned: true
+    t.integer "sig_priority", unsigned: true
+    t.datetime "timestamp", null: false
+    t.integer "ip_src", unsigned: true
+    t.integer "ip_dst", unsigned: true
+    t.integer "ip_proto"
+    t.integer "layer4_sport", unsigned: true
+    t.integer "layer4_dport", unsigned: true
+    t.index ["ip_dst"], name: "ip_dst"
+    t.index ["ip_proto"], name: "ip_proto"
+    t.index ["ip_src"], name: "ip_src"
+    t.index ["layer4_dport"], name: "layer4_dport"
+    t.index ["layer4_sport"], name: "layer4_sport"
+    t.index ["sig_class_id"], name: "sig_class_id"
+    t.index ["sig_name"], name: "sig_name"
+    t.index ["sig_priority"], name: "sig_priority"
+    t.index ["signature"], name: "signature"
+    t.index ["timestamp"], name: "timestamp"
+  end
+
+  create_table "acid_ip_cache", primary_key: "ipc_ip", id: :integer, unsigned: true, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "ipc_fqdn", limit: 50
+    t.datetime "ipc_dns_timestamp"
+    t.text "ipc_whois"
+    t.datetime "ipc_whois_timestamp"
+    t.index ["ipc_ip"], name: "ipc_ip"
+  end
+
+  create_table "base_roles", primary_key: "role_id", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "role_name", limit: 20, null: false
+    t.string "role_desc", limit: 75, null: false
+  end
+
+  create_table "base_users", primary_key: "usr_id", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "usr_login", limit: 25, null: false
+    t.string "usr_pwd", limit: 32, null: false
+    t.string "usr_name", limit: 75, null: false
+    t.integer "role_id", null: false
+    t.integer "usr_enabled", null: false
+    t.index ["usr_login"], name: "usr_login"
+  end
 
   create_table "data", primary_key: ["sid", "cid"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "sid", null: false, unsigned: true
@@ -29,9 +92,9 @@ ActiveRecord::Schema.define(version: 20181008210021) do
   create_table "event", primary_key: ["sid", "cid"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "sid", null: false, unsigned: true
     t.integer "cid", null: false, unsigned: true
-    t.integer "signature", null: false, unsigned: true
+    t.integer "signature_id", null: false, unsigned: true
     t.datetime "timestamp", null: false
-    t.index ["signature"], name: "sig"
+    t.index ["signature_id"], name: "sig"
     t.index ["timestamp"], name: "time"
   end
 

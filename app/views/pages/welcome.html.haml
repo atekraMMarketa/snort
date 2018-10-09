@@ -1,11 +1,73 @@
 %h1
   Webové rozhraní IDS systému Snort
 %p
-  blabla
-
+  Snort je síťový Intrusion Detection System (IDS) založený na pravidlech. Na základě odposlechu síťové komunikace hledá známé vzorky útoků a v případě nalezení je schopen provádět další akce. Kromě generování protokolu události je schopen zaznamenávat paketová data na disk, kde mohou sloužit k další analýze. Cílem diplomové práce je vytvořit nástavbu aplikace Snort umožňující přehlednou analýzu logů skrz webové rozhraní. Inspirací mohou být projekty BASE, OSSIM nebo SnortALog. Vyvinuté rozhraní by mělo být schopné provozu i na méně výkonných routerech typu Alix.
+  %br
+  1. Seznamte se s IDS systémy, jejich funkcemi a konfigurací.
+  %br
+  2. Proveďte rešerši grafických a webových nástaveb IDS systému Snort.
+  %br
+  3. Navrhněte a implementujte vlastní rozhraní umožňující přehlednou vizualizaci zachycených útoků s možností stáhnout zachycené paketové data.
+  %br
+  4. Vytvořte vhodnou statistiku popisující charakter a typ útoků.
+  %br
+  5. Otestujte navržené řešení a výstupy porovnejte s alespoň dvěma jinými systémy umožňujícími vizualizaci protokolů systému Snort.
+  %br
+  6. Shrňte dosažené výsledky a popište možnosti dalšího vývoje.
+  %br
 
 .row
   .col-xs-12
+    .table-responsive
+      %h2
+        Events
+
+      %h2
+        = "Total events count: #{@events.count}"
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              timestamp
+            %th
+              sid
+            %th
+              cid
+            %th
+              signature
+            %th
+              sig_class
+            %th
+              sig_priority
+            %th
+              sig_rev
+            %th
+              sig_sid
+            %th
+              sig_gid
+        %tbody
+          - if @events.present?
+            - @events.each do |event|
+              %tr
+                %td
+                  = event.timestamp
+                %td
+                  = event.sid
+                %td
+                  = event.cid
+                %td
+                  = event.signature.sig_name
+                %td
+                  = event.signature.sig_class_name
+                %td
+                  = event.signature.sig_priority
+                %td
+                  = event.signature.sig_rev
+                %td
+                  = event.signature.sig_sid
+                %td
+                  = event.signature.sig_gid
+
     .table-responsive
       %h2
         Sensors
@@ -26,6 +88,7 @@
               encoding
             %th
               last_cid
+
         %tbody
           - if @sensors.present?
             - @sensors.each do |sensor|
@@ -45,44 +108,6 @@
                 %td
                   = sensor.last_cid
 
-    .table-responsive
-      %h2
-        Signatures
-      %table.table.table-striped.table-hover
-        %thead
-          %tr
-            %th
-              sig_id
-            %th
-              sig_name
-            %th
-              sig_class_id
-            %th
-              sig_priority
-            %th
-              sig_rev
-            %th
-              sig_sid
-            %th
-              sig_gid
-        %tbody
-          - if @signatures.present?
-            - @signatures.each do |signature|
-              %tr
-                %td
-                  = signature.sig_id
-                %td
-                  = signature.sig_name
-                %td
-                  = signature.sig_class_id
-                %td
-                  = signature.sig_priority
-                %td
-                  = signature.sig_rev
-                %td
-                  = signature.sig_sid
-                %td
-                  = signature.sig_gid
 
     .table-responsive
       %h2
@@ -103,34 +128,6 @@
                   = detail.detail_type
                 %td
                   = detail.detail_text
-
-    .table-responsive
-      %h2
-        Events
-      %table.table.table-striped.table-hover
-        %thead
-          %tr
-            %th
-              sid
-            %th
-              cid
-            %th
-              signature
-            %th
-              timestamp
-
-        %tbody
-          - if @events.present?
-            - @events.each do |event|
-              %tr
-                %td
-                  = event.sid
-                %td
-                  = event.cid
-                %td
-                  = event.signature
-                %td
-                  = event.timestamp
 
 
     .table-responsive
