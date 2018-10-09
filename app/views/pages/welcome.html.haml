@@ -1,0 +1,175 @@
+%h1
+  Webové rozhraní IDS systému Snort
+%p
+  blabla
+
+
+.row
+  .col-xs-12
+    .table-responsive
+      %h2
+        Sensors
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              sid
+            %th
+              hostname
+            %th
+              interface
+            %th
+              filter
+            %th
+              detail
+            %th
+              encoding
+            %th
+              last_cid
+        %tbody
+          - if @sensors.present?
+            - @sensors.each do |sensor|
+              %tr
+                %td
+                  = sensor.sid
+                %td
+                  = sensor.hostname
+                %td
+                  = sensor.interface
+                %td
+                  = sensor.filter
+                %td
+                  = sensor.detail
+                %td
+                  = sensor.encoding
+                %td
+                  = sensor.last_cid
+
+    .table-responsive
+      %h2
+        Signatures
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              sig_id
+            %th
+              sig_name
+            %th
+              sig_class_id
+            %th
+              sig_priority
+            %th
+              sig_rev
+            %th
+              sig_sid
+            %th
+              sig_gid
+        %tbody
+          - if @signatures.present?
+            - @signatures.each do |signature|
+              %tr
+                %td
+                  = signature.sig_id
+                %td
+                  = signature.sig_name
+                %td
+                  = signature.sig_class_id
+                %td
+                  = signature.sig_priority
+                %td
+                  = signature.sig_rev
+                %td
+                  = signature.sig_sid
+                %td
+                  = signature.sig_gid
+
+    .table-responsive
+      %h2
+        Details
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              detail_type
+            %th
+              detail_text
+
+        %tbody
+          - if @detail.present?
+            - @detail.each do |detail|
+              %tr
+                %td
+                  = detail.detail_type
+                %td
+                  = detail.detail_text
+
+    .table-responsive
+      %h2
+        Events
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              sid
+            %th
+              cid
+            %th
+              signature
+            %th
+              timestamp
+
+        %tbody
+          - if @events.present?
+            - @events.each do |event|
+              %tr
+                %td
+                  = event.sid
+                %td
+                  = event.cid
+                %td
+                  = event.signature
+                %td
+                  = event.timestamp
+
+
+    .table-responsive
+      %h2
+        Icmphdrs
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              sid
+            %th
+              cid
+            %th
+              icmp_type
+            %th
+              icmp_code
+            %th
+              icmp_csum
+            %th
+              icmp_id
+            %th
+              icmp_seq
+        %tbody
+          - if @icmphdrs.present?
+            - @icmphdrs.each do |icmphdr|
+              %tr
+                %td
+                  = icmphdr.sid
+                %td
+                  = icmphdr.cid
+                %td
+                  = icmphdr.icmp_type
+                %td
+                  = icmphdr.icmp_code
+                %td
+                  = icmphdr.icmp_csum
+                %td
+                  = icmphdr.icmp_id
+                %td
+                  = icmphdr.icmp_seq
+
+
