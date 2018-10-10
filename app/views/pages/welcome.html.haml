@@ -18,55 +18,6 @@
 
 .row
   .col-xs-12
-    .table-responsive
-      %h2
-        Events
-
-      %h2
-        = "Total events count: #{@events.count}"
-      %table.table.table-striped.table-hover
-        %thead
-          %tr
-            %th
-              timestamp
-            %th
-              sid
-            %th
-              cid
-            %th
-              signature
-            %th
-              sig_class
-            %th
-              sig_priority
-            %th
-              sig_rev
-            %th
-              sig_sid
-            %th
-              sig_gid
-        %tbody
-          - if @events.present?
-            - @events.each do |event|
-              %tr
-                %td
-                  = event.timestamp
-                %td
-                  = event.sid
-                %td
-                  = event.cid
-                %td
-                  = event.signature.sig_name
-                %td
-                  = event.signature.sig_class_name
-                %td
-                  = event.signature.sig_priority
-                %td
-                  = event.signature.sig_rev
-                %td
-                  = event.signature.sig_sid
-                %td
-                  = event.signature.sig_gid
 
     .table-responsive
       %h2
@@ -75,17 +26,19 @@
         %thead
           %tr
             %th
-              sid
+              Sensor ID
             %th
-              hostname
+              Hostname
             %th
-              interface
+              Interface
             %th
-              filter
+              Total Events
             %th
-              detail
+              Filter
             %th
-              encoding
+              Detail
+            %th
+              Encoding
             %th
               last_cid
 
@@ -100,73 +53,77 @@
                 %td
                   = sensor.interface
                 %td
+                  = link_to AcidEvent.where(:sid => sensor.sid).count, acid_events_path
+                %td
                   = sensor.filter
                 %td
-                  = sensor.detail
+                  = sensor.sensor_detail
                 %td
-                  = sensor.encoding
+                  = sensor.sensor_encoding
                 %td
-                  = sensor.last_cid
-
+                  = format_datetime sensor.last_log_time, :format => :humanized
 
     .table-responsive
       %h2
-        Details
+        Acid events
+
+      %h2
+        = "Last 10 logs"
+        %br
       %table.table.table-striped.table-hover
         %thead
           %tr
             %th
-              detail_type
+              Time
             %th
-              detail_text
-
+              Sensor Hostname
+            //%th
+            //  cid
+            //%th
+            //  signature
+            %th
+              Signature Name
+            %th
+              Signature Class Name
+            %th
+              Signature Priority
+            %th
+              Source IP
+            %th
+              Destination IP
+            //%th
+            //  Proto IP
+            //%th
+            //  layer4_sport
+            //%th
+            //  layer4_dport
         %tbody
-          - if @detail.present?
-            - @detail.each do |detail|
+          - if @acid_events.present?
+            - @acid_events.each do |acid_event|
               %tr
                 %td
-                  = detail.detail_type
+                  = format_datetime acid_event.timestamp, :format => :humanized
                 %td
-                  = detail.detail_text
-
-
-    .table-responsive
-      %h2
-        Icmphdrs
-      %table.table.table-striped.table-hover
-        %thead
-          %tr
-            %th
-              sid
-            %th
-              cid
-            %th
-              icmp_type
-            %th
-              icmp_code
-            %th
-              icmp_csum
-            %th
-              icmp_id
-            %th
-              icmp_seq
-        %tbody
-          - if @icmphdrs.present?
-            - @icmphdrs.each do |icmphdr|
-              %tr
+                  = acid_event.sensor_hostname
+                //%td
+                //  = acid_event.cid
+                //%td
+                //  = acid_event.signature
                 %td
-                  = icmphdr.sid
+                  = link_to acid_event.sig_name, acid_event_path(acid_event.cid)
                 %td
-                  = icmphdr.cid
+                  = acid_event.sig_class_name
                 %td
-                  = icmphdr.icmp_type
+                  = acid_event.sig_priority
                 %td
-                  = icmphdr.icmp_code
+                  = acid_event.ipv4_source
                 %td
-                  = icmphdr.icmp_csum
-                %td
-                  = icmphdr.icmp_id
-                %td
-                  = icmphdr.icmp_seq
+                  = acid_event.ipv4_destination
+                //%td
+                //  = acid_event.ip_proto
+                //%td
+                //  = acid_event.layer4_sport
+                //%td
+                //  = acid_event.layer4_dport
 
 

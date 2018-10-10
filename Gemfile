@@ -11,6 +11,10 @@ gem 'annotate'
 gem 'haml'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'jquery-rails'
+#for getting address from IP
+gem 'geocoder'
+gem 'whois'
+gem 'whois-parser'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
@@ -60,5 +64,3 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #for graps
 gem 'gruff'
-#for getting address from IP 
-gem 'geocode'

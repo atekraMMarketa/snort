@@ -1,0 +1,70 @@
+.row
+  .col-xs-12
+    .table-responsive
+      %h2
+        Acid events
+
+      %h2
+        = "Total events count: #{@acid_events.count}"
+        %br
+        = "ICMP events count: #{@icmp_headers.count}"
+        %br
+        = "UDP events count: #{@udp_headers.count}"
+        %br
+        = "TCP events count: #{@tcp_headers.count}"
+        %br
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th
+              Time
+            %th
+              Sensor Hostname
+            //%th
+            //  cid
+            //%th
+            //  signature
+            %th
+              Signature Name
+            %th
+              Signature Class Name
+            %th
+              Signature Priority
+            %th
+              Source IP
+            %th
+              Destination IP
+            %th
+              Proto IP
+            %th
+              Layer4 Source Port
+            %th
+              Layer4 Destination Port
+        %tbody
+          - if @acid_events.present?
+            - @acid_events.each do |acid_event|
+              %tr
+                %td
+                  = format_datetime acid_event.timestamp, :format => :humanized
+                %td
+                  = acid_event.sensor_hostname
+                //%td
+                //  = acid_event.cid
+                //%td
+                //  = acid_event.signature
+                %td
+                  = link_to acid_event.sig_name, acid_event_path(acid_event.cid)
+                %td
+                  = acid_event.sig_class_name
+                %td
+                  = acid_event.sig_priority
+                %td
+                  = acid_event.ipv4_source
+                %td
+                  = acid_event.ipv4_destination
+                %td
+                  = acid_event.ip_proto
+                %td
+                  = acid_event.layer4_sport
+                %td
+                  = acid_event.layer4_dport

@@ -1,0 +1,69 @@
+= "ID: #{@acid_event.cid}"
+%br
+= "Time: #{format_datetime @acid_event.timestamp, :format => :humanized}"
+%br
+= "Sensor hostname: #{@acid_event.sensor_hostname}"
+%br
+= "Signature: #{@acid_event.signature}"
+%br
+= "Signature name: #{@acid_event.sig_name}"
+%br
+= "Signature class name: #{@acid_event.sig_class_name}"
+%br
+= "Priority: #{@acid_event.sig_priority}"
+%br
+= "IPv4 Source: #{@acid_event.ipv4_source}"
+%br
+= "IPv4 Destination: #{@acid_event.ipv4_destination}"
+%br
+= "IP Proto: #{@acid_event.ip_proto}"
+%br
+= "Layer 4 source port: #{@acid_event.layer4_sport}"
+%br
+= "Layer 4 destination port: #{@acid_event.layer4_dport}"
+%br
+= "Address from source IP: #{@address}"
+%br
+= "Latitude from source IP: #{@lat}"
+%br
+= "Longitude from source IP: #{@lng}"
+%br
+%br
+.row
+  .col-xs-12
+
+    .table-responsive
+      %h2
+        Who is info:
+      %table.table.table-striped.table-hover
+        %tbody
+          - @whois.record.to_s.split("\n").each do |line|
+            %tr
+              %td= line
+
+
+#map
+
+%script
+  function initMap() {
+  var mapDiv = document.getElementById('map');
+  var map = new google.maps.Map(mapDiv, {
+  center: {
+  = "lat: #{@lat}, lng: #{@lng}"
+  },
+  zoom: 16,
+  streetViewControl: false
+  });
+
+  var marker = new google.maps.Marker({
+  position: {
+  = "lat: #{@lat}, lng: #{@lng}"
+  },
+  map: map
+  });
+  }
+
+
+//%script{ :src => "https://maps.googleapis.com/maps/api/js?key=AIzaSyCiw9WONxPAKE_S7djhzfBBGB7OwnEEgQg&callback=initMap", :async => '', :defer => '' }
+%script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?key=AIzaSyABhpfkZbpCAdBSIt9Dn-dxkoUIZVty2io&callback=initMap", :type => "text/javascript"}
+
